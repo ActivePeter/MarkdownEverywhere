@@ -1,0 +1,41 @@
+.title{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size: 30px;
+    border-left: 5px solid #409EFF;
+    padding: 0 0 0 10px;
+    transition: color 0.3s ease 0s;
+    -o-transition: color 0.35s ease 0s;
+    -moz-transition: color 0.35s ease 0s;
+    -webkit-transition: color 0.3s ease 0s;
+    color: #409EFF;
+}
+.title:hover{
+    color: rgb(111, 183, 255);
+}
+p{
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+.hoverShadow{
+    transition: box-shadow 0.3s ease 0s;
+    -o-transition: box-shadow 0.35s ease 0s;
+    -moz-transition: box-shadow 0.35s ease 0s;
+    -webkit-transition: box-shadow 0.3s ease 0s;
+}
+.hoverShadow:hover{
+    box-shadow:0px 0 3px #888;
+}
+.bottomShadowBox{
+  box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.2); 
+  }
+  .selectable{
+    -webkit-touch-callout: text !important;
+    -webkit-user-select: text !important;
+    -khtml-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important ;
+  }
+  a:hover{
+    cursor:pointer
+  }

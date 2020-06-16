@@ -1,0 +1,83 @@
+@import "./normalize.css";
+@import "./common.css";
+:root {
+  --color-text: #666;
+  --color-high-text: #66B1FF;
+  --color-tint: #C6E2FF;
+  --color-background: #F1F1F1;
+  --font-size: 15px;
+  --line-height: 1.5;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  
+  user-select: none; /* 禁止用户鼠标在页面上选中文字/图片等 */
+  -webkit-tap-highlight-color: transparent; /* webkit是苹果浏览器引擎，tap点击，highlight背景高亮，color颜色，颜色用数值调节 */
+  background: #fdfdfd;
+  color: var(--color-text);
+}
+
+/* 声明全局样式和项目的初始化样式 */
+body, h1, h2, h3, h4, p, table, tr, td, ul, li, a, form, input, select, option, textarea {
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size);
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+ul, li {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse; /* 合并边框 */
+}
+
+img {
+  width: 100%;
+}
+
+
+.clear-fix::after {
+  clear: both;
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.clear-fix {
+  zoom: 1;
+}
+
+.arrow-right {
+  border-top: 1px solid #999;
+  border-left: 1px solid #999;
+  width: 9px;
+  height: 9px;
+  background-color: transparent;
+  transform: rotate(135deg);
+  display: inline-block;
+  margin-left: .1rem;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}

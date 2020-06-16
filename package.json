@@ -1,0 +1,26 @@
+{
+  "name": "echo_web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "core-js": "^3.6.4",
+    "element-ui": "^2.13.0",
+    "mavon-editor": "^2.7.7",
+    "vue": "^2.6.11",
+    "vue-cookies": "^1.6.1",
+    "vue-router": "^3.1.5",
+    "vuex": "^3.1.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.2.0",
+    "@vue/cli-plugin-router": "~4.2.0",
+    "@vue/cli-plugin-vuex": "~4.2.0",
+    "@vue/cli-service": "~4.2.0",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
