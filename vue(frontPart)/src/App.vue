@@ -11,8 +11,8 @@
       @leave="leave"
       >
       <div class="sidebar" v-show="showSideBar"
-      
       >
+        
         <TreeMenu
         :treeData="treeData"
         />
@@ -57,6 +57,9 @@
               {
                 label: '二级 1-1',
                 children: [
+                  {
+                    label: '三级 1-1-1'
+                  },
                   {
                     label: '三级 1-1-1'
                   }
@@ -124,8 +127,6 @@
   }
   .sidebar{
     height: 100vh;
-    background:green;
-    width: 100px;
     padding-top: 60px;
   }
   .article{
