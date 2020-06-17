@@ -30,6 +30,12 @@
           return [];
         }
       },
+      folded:{//作用是请求的时候提供数据，还有整明为子集评论框
+        type:Boolean,
+        default() {
+          return true;
+        }
+      },
     }
   }
 </script>
