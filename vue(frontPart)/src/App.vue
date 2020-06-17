@@ -14,7 +14,9 @@
       >
         
         <TreeMenu
-        :treeData="treeData"
+        :folded='false'
+        style="width: max-content;"
+        :childTreeData="treeData"
         />
       </div></transition>
       <div class="article">
@@ -128,6 +130,7 @@
   .sidebar{
     height: 100vh;
     padding-top: 60px;
+    
   }
   .article{
     padding-top: 60px;
