@@ -2,9 +2,9 @@
   <div id="all">
     <div
       :key="index"
-      v-for="item,index in treeData">
+      v-for="item,index in treeData"
     >
-      {{index}}
+      {{item.label}}
     </div>
   </div>
   

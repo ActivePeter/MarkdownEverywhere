@@ -5,8 +5,13 @@
     @onSideBarStateChange="onSideBarStateChange"
     />
     <div id="app">
-      <transition name="fade">
+      <transition
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @leave="leave"
+      >
       <div class="sidebar" v-show="showSideBar"
+      
       >
         <TreeMenu
         :treeData="treeData"
@@ -24,8 +29,6 @@
           :ishljs = "true"
         ></mavon-editor>
       </div>
-      
-      
     </div>
   </div>
   
@@ -36,6 +39,7 @@
   import { mavonEditor } from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
   import TreeMenu from '@/views/components/TreeMenu'
+  import $ from 'jquery'
   export default {
     name: "App",
     components:{
@@ -67,7 +71,32 @@
       onSideBarStateChange(){
         this.showSideBar=!this.showSideBar
         console.log("onSideBarStateChange")
+      },
+      beforeEnter(el){
+        $(el).css({
+          opacity:0
+        })
+      },
+      enter(el,done){
+        $(el).animate({
+          opacity:1,
+          marginLeft:'0px'
+        },{
+          duration:500,
+          complete:done
+        })
+      },
+      leave(el,done){
+        $(el).animate({
+          opacity:0,
+          marginLeft:-$(el).width()
+        },{
+          duration:500,
+          complete:done
+        }
+        )
       }
+  
     }
   }
 </script>
@@ -90,11 +119,5 @@
     padding-top: 60px;
     height:100vh;
     width: 100%;
-  }
-  .fade-enter-active, .fade-leave-active {
-      transition: width .3s
-  }
-  .fade-enter, .fade-leave-active {
-        width: 0
   }
 </style>
