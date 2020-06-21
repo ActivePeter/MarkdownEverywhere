@@ -11,32 +11,47 @@
 
 ![CS02~R`3_U2D6K_QGG__4HF.png](https://i.loli.net/2020/06/17/yc2qTGMh8pfPKFg.png)
 
-## Project setup
+> ## Project setup（front）
+>
+> 问题描述：
+> Unexpected end of JSON input while parsing near '…"
+>
+> 解决办法：
+> （1）npm install --registry=https://registry.npm.taobao.org --loglevel=silly
+> （2） npm cache clean --force
+> （3） npm install
+>
+> ```
+> npm install
+> ```
+>
+> ### Compiles and hot-reloads for development
+>
+> ```
+> npm run serve
+> ```
+>
+> ### Compiles and minifies for production
+>
+> ```
+> npm run build
+> ```
+>
+> ### Customize configuration
+>
+> See [Configuration Reference](https://cli.vuejs.org/config/).
 
-问题描述：
-Unexpected end of JSON input while parsing near '…"
 
-解决办法：
-（1）npm install --registry=https://registry.npm.taobao.org --loglevel=silly
-（2） npm cache clean --force
-（3） npm install
 
-```
-npm install
-```
+## Operational process（back）
 
-### Compiles and hot-reloads for development
+初始化运行，会调用ServletContextLTest ，然后会加载notemanager 单例，
 
-```
-npm run serve
-```
+单例加载过程中先读取配置文件。如果没有配置文件，则不工作，
 
-### Compiles and minifies for production
+配置文件 需要配置gitee仓库的地址，
 
-```
-npm run build
-```
+然后在前端设置仓库地址，或者已有配置文件，那么就开始clone仓库，
 
-### Customize configuration
+由于hook等会引起一个线程的数据更新，更新过程中重新构建对象，对象构建完成后。
 
-See [Configuration Reference](https://cli.vuejs.org/config/).

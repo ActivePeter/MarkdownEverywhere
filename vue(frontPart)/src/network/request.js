@@ -4,7 +4,7 @@ import context from "../main"
 export function request(config,timeout1=10000) {
   
   const instance = axios.create({
-    baseURL: 'http://s2.ruixuncloud.com:57529',
+    baseURL: 'http://192.168.1.106:8084/',
     timeout: timeout1
   })
 
@@ -38,7 +38,7 @@ export function request_auth_required(config,timeout1=10000) {
   }
   
   const instance = axios.create({
-    baseURL: 'http://s2.ruixuncloud.com:57529',
+    baseURL: 'http://localhost:8084/',
     timeout: timeout1
   })
 

@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 
 const Home = () => import('@/views/home/Home');
 const routes = [
+  { path: '/:id'}
 ];
 
 const router = new VueRouter({

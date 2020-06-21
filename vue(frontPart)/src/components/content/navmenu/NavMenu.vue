@@ -7,9 +7,21 @@
     @click="switchSideBar()"
     >
     </el-button>
-    <div class="title1">
-      hanbaoaaa.Notes
-    </div>
+    <el-button  class="btn2" 
+    icon="el-icon-refresh" 
+    circle
+    @click="updatePageData()"
+    >
+    </el-button>
+    <el-tooltip class="item" effect="dark" :content="'当前commit版本:  '+versionCode" placement="bottom">
+      <div class="title1">
+        <div>
+          hanbaoaaa.Notes
+        </div>
+        
+      </div>
+    </el-tooltip>
+    
   </div>
 </template>
 
@@ -48,13 +60,23 @@ export default {
     },
     switchSideBar(){
       this.$emit("onSideBarStateChange",!this.showSideBar);
+    },
+    updatePageData(){
+      this.$emit("onUpdatePageData");
     }
+
   },
   props:{
     showSideBar:{//作用是请求的时候提供数据，还有整明为子集评论框
       type:Boolean,
       default() {
         return false;
+      }
+    },
+    versionCode:{//作用是请求的时候提供数据，还有整明为子集评论框
+      type:String,
+      default() {
+        return "";
       }
     },
   }
@@ -81,6 +103,8 @@ export default {
   position: relative; /*脱离文档流*/
   top: -38px; /*偏移*/
   margin-bottom: -7px;
+  width: max-content;
+  margin: auto;
   z-index:20;
 }
 .btn1{
@@ -88,5 +112,9 @@ export default {
   z-index:22;
   margin-left:10px ;
   margin-top: 10px;
+}
+.btn2{
+  position: relative;
+  z-index:22;
 }
 </style>
