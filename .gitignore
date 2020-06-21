@@ -20,4 +20,4 @@ yarn-error.log*
 *.sln
 *.sw?
 
-/java(back)/out/*
+java(back)
