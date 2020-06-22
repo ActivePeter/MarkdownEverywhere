@@ -132,8 +132,9 @@ public class NoteManager {
                             .call();
                     Iterable<RevCommit> iterable=git.log().call();
                     Iterator<RevCommit> iter=iterable.iterator();
-                    System.out.println("new Clone!"+iter.next().getName());
-                    this.currentCode=iter.next().getName();
+                    String code =iter.next().getName();
+                    System.out.println("new Clone!"+code);
+                    this.currentCode=code;
                     fileTreeJSON=this.checkFileAndBuildMap("",file,".md");
                     this.saveData();
                 } catch (GitAPIException e1) {
@@ -149,21 +150,31 @@ public class NoteManager {
         File[] listFiles = file.listFiles();
         StringBuffer sb= new StringBuffer();
         sb.append('[');
+//        String encoding = System.getProperty("sun.jnu.encoding");
+//        System.out.println(encoding);
         for (File file2 : listFiles) {
+            String filename=file2.getName();
 
+
+//            try {
+//                //将系统编码encoding转换为utf-8编码
+//                filename=new String(filename.getBytes("UTF-8"),"UTF-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
             if (file2.isDirectory()) {
                 //System.out.println(file2.getName());
-                String directory=checkFileAndBuildMapRunner(fathername+"/"+file2.getName(),file2,context,newMap);
+                String directory=checkFileAndBuildMapRunner(fathername+"/"+filename,file2,context,newMap);
                 if(directory.length()>0){
                     sb.append("{\"filename\":\"")
-                            .append(file2.getName())
+                            .append(filename)
                             .append("\",\"children\":")
                             .append(directory)
                             .append("},");
                 }
                 //sb.append(directory); //递归调用的地方
             } else {
-                String filename=file2.getName();
+
                 int index = filename.lastIndexOf(context);
                 if(filename.length()-index==context.length()){
 //                    System.out.println();
