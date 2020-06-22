@@ -74,6 +74,7 @@
           scroll=new BScroll(this.$refs.article, {
             click:true,
             tap:true,
+            preventDefault: true,
           })
         })
         this.$nextTick(() => {
@@ -312,5 +313,9 @@
   
   .article{
     width: 100%;
+    -webkit-user-select:text;
+  -moz-user-select:text;
+  -o-user-select:text;
+  user-select:text;
   }
 </style>
