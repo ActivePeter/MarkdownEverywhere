@@ -54,17 +54,30 @@
     },
     watch: {
       id(val) {
-        if(this.$route.params.id==this.id){
-          console.log("route has id",this.$route.params.id)
-          this.select(true)
-          this.onDataLoad(this)
-          this.onExpand();
+        var str = this.$route.path.split('/');
+        var n = parseInt(str[str.length-1]);
+        if (!isNaN(n))
+        {
+            console.log(n);
+        }
+        if(n==this.id){
+            console.log("route has id",n)
+            this.select(true)
+            this.onDataLoad(this)
+            this.onExpand();
         }
       }
     },
     mounted(){
-      if(this.$route.params.id==this.id){
-          console.log("route has id",this.$route.params.id)
+      //console.log(this.$route.path)
+      var str = this.$route.path.split('/');
+      var n = parseInt(str[str.length-1]);
+      if (!isNaN(n))
+      {
+          console.log(n);
+      }
+      if(n==this.id){
+          console.log("route has id",n)
           this.select(true)
           this.onDataLoad(this)
           this.onExpand();
