@@ -7,12 +7,6 @@
     @click="switchSideBar()"
     >
     </el-button>
-    <el-button  class="btn2" 
-    icon="el-icon-refresh" 
-    circle
-    @click="updatePageData()"
-    >
-    </el-button>
     <el-tooltip class="item" effect="dark" :content="'当前commit版本:  '+versionCode" placement="bottom">
       <div class="title1">
         <div>
@@ -29,6 +23,13 @@
 import Util from "@/assets/js/util.js";
 
 export default {
+  
+    // <el-button  class="btn2" 
+    // icon="el-icon-refresh" 
+    // circle
+    // @click="updatePageData()"
+    // >
+    // </el-button>
   name: "NavMenu",
   data() {
     return {

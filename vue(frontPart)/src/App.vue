@@ -87,6 +87,7 @@
         erd.listenTo(document.getElementById("sidebar"), function(element) {
           var width = element.offsetWidth;
           _that.$refs.article.style.marginLeft=width+"px";
+          document.getElementById("meditor").style.minHeight=element.offsetHeight+"px";
           scroll.refresh()
   //         $("#article").css({
   //           marginLeft:width+"px"
@@ -102,12 +103,15 @@
         this.$refs.sidebar.style.overflowY="scroll";
         erd.listenTo(document.getElementById("sidebar"), function(element) {
           var width = element.offsetWidth;
+          document.getElementById("meditor").style.minHeight=element.offsetHeight+"px";
+          document.getElementById("app").style.height=element.offsetHeight+60+"px";
           _that.$refs.article.style.marginLeft=width+"px";
+          _that.$refs.article.style.width="calc(100% - "+width+"px)";
   //         $("#article").css({
   //           marginLeft:width+"px"
   //         })
         });
-        document.getElementById("meditor").style.minHeight="100%"
+        
       }
         
       
@@ -256,7 +260,8 @@
           complete:done
         })
         $("#article").animate({
-          marginLeft:$(el).width()+"px"
+          marginLeft:$(el).width()+"px",
+          width:"100%"
         },{
           duration:300,
           complete:done
@@ -275,7 +280,9 @@
         }
         )
         $("#article").animate({
-          marginLeft:"0px"
+          marginLeft:"0px",
+          width:"100%"
+
         },{
           duration:300,
           complete:done
