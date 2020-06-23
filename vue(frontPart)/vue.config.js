@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: "/markdownEverywhere",
+  publicPath: "/myNote",
   configureWebpack: {
     resolve: {
       alias: {

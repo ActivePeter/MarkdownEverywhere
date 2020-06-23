@@ -14,10 +14,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NoteManager {
@@ -152,6 +149,16 @@ public class NoteManager {
         sb.append('[');
 //        String encoding = System.getProperty("sun.jnu.encoding");
 //        System.out.println(encoding);
+        Collections.sort(Arrays.asList(listFiles), new Comparator<File>(){
+            @Override
+            public int compare(File o1, File o2) {
+                if(o1.isDirectory() && o2.isFile())
+                    return -1;
+                if(o1.isFile() && o2.isDirectory())
+                    return 1;
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
         for (File file2 : listFiles) {
             String filename=file2.getName();
 

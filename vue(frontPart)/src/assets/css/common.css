@@ -39,3 +39,7 @@ p{
   a:hover{
     cursor:pointer
   }
+  .markdown-body img {
+    max-width: 900px !important;
+    border-radius: 10px;
+  }
