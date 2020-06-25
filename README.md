@@ -9,7 +9,7 @@
 
 ## 部署教程（供参考）
 
-https://hanbaoaaa.xyz/hanbaoNote/92
+[https://hanbaoaaa.xyz/hanbaoNote/92](https://hanbaoaaa.xyz/hanbaoNote/92)
 
 ## 当前部署的我的知识库（demo）
 
