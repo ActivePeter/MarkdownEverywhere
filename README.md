@@ -1,7 +1,7 @@
 # MarkdownEverywhere
 [https://github.com/ActivePeter/MarkdownEverywhere](https://github.com/ActivePeter/MarkdownEverywhere)
 
- A web project to auto sync notes in git repositories, then present them by vue.
+ A web project to auto sync notes in git repositories, then present them by vue. I'm going to substitute this project for my blog.
 
 由于自己有在本地记笔记的习惯，同时又有两个笔记本，需要进行md文件同步，并且希望通过自己的服务器网站查阅到我的笔记，我准备开始做这个程序。
 
