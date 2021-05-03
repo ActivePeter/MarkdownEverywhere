@@ -21,3 +21,5 @@ yarn-error.log*
 *.sln
 *.sw?
 java(back)/out
+vue_ssr_seo/
+me_ssr/

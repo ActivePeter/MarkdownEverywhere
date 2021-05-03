@@ -1,11 +1,21 @@
 # MarkdownEverywhere
 [https://github.com/ActivePeter/MarkdownEverywhere](https://github.com/ActivePeter/MarkdownEverywhere)
 
- a project to reach a goal of markdown wiki notes everywhere
+ A web project to auto sync notes in git repositories, then present them by vue.
 
 由于自己有在本地记笔记的习惯，同时又有两个笔记本，需要进行md文件同步，并且希望通过自己的服务器网站查阅到我的笔记，我准备开始做这个程序。
 
 大概原理是，通过git仓库，我们可以同步.md文件。然后服务端通过jgit来操作git，同步数据，如果有变更，就自动更新数据到服务端，然后我再通过vue前端去访问后端，后端读取目录文件，
+
+## Preview
+
+![image-20210503135443404](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503135443404.png)
+
+## Fetures & TODO
+
+- [x] auto sync through git hook（通过git服务的hook调用接口来自动同步
+- [ ] ssr（服务端渲染
+- [ ] easy for deploying（易于部署
 
 ## 部署教程（供参考）
 
