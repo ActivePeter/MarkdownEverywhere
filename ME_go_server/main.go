@@ -25,8 +25,13 @@ func main() {
 			"message": "pong",
 		})
 	})
-	CreateGetArticleApi(r)
-	CreateGetListApi(r)
-	CreateUpdateHookApi(r)
+	SQL.InitDB()
+	API.CreateGetArticleApi(r)
+	API.CreateGetListApi(r)
+	API.CreateUpdateHookApi(r)
+	API.CreateAddCommentAPI(r)
+	API.CreateGetCommentsNextPageAPI(r)
+	API.CreateGetCommentsPreAPI(r)
+
 	r.Run((*conf)["ip"].(string)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

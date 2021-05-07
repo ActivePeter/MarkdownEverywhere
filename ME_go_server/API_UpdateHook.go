@@ -6,9 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateAddCommentAPI(g *gin.Engine) {
+var lastCallTime int64 = 0
 
-	g.POST("/addComment", func(c *gin.Context) {
+func (api) CreateUpdateHookApi(g *gin.Engine) {
+
+	g.POST("/hook", func(c *gin.Context) {
 		t6 := time.Now().Unix()
 		if t6-lastCallTime > 3 || lastCallTime == 0 {
 
@@ -16,6 +18,7 @@ func CreateAddCommentAPI(g *gin.Engine) {
 			c.JSON(200, gin.H{})
 			lastCallTime = t6
 		} else {
+
 			c.JSON(301, gin.H{
 				"cur":   t6,
 				"last":  lastCallTime,

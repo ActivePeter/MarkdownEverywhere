@@ -14,7 +14,7 @@ import (
 // 		"message": "pong",
 // 	})
 // })
-func CreateGetListApi(g *gin.Engine) {
+func (api) CreateGetListApi(g *gin.Engine) {
 	g.GET("/list", func(c *gin.Context) {
 		// id := c.Query("id")
 
@@ -25,7 +25,7 @@ func CreateGetListApi(g *gin.Engine) {
 
 	})
 }
-func CreateGetArticleApi(g *gin.Engine) {
+func (api) CreateGetArticleApi(g *gin.Engine) {
 	g.GET("/article", func(c *gin.Context) {
 		id := c.Query("id")
 		if id == "" {
