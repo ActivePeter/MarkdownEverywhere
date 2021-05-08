@@ -18,7 +18,7 @@ type GetCommentsReturn struct {
 }
 
 func (api) CreateGetCommentsNextPageAPI(g *gin.Engine) {
-	g.GET("/getNextCommentsNextPage", func(c *gin.Context) {
+	g.GET("/getCommentsNextPage", func(c *gin.Context) {
 		id := c.Query("id") //评论id
 		idint, err := strconv.Atoi(id)
 		if err != nil {
@@ -29,13 +29,24 @@ func (api) CreateGetCommentsNextPageAPI(g *gin.Engine) {
 	})
 }
 func (api) CreateGetCommentsPreAPI(g *gin.Engine) {
-	g.GET("/getNextCommentsPre", func(c *gin.Context) {
+	g.GET("/getCommentsPre", func(c *gin.Context) {
 		id := c.Query("id") //评论id
 		idint, err := strconv.Atoi(id)
 		if err != nil {
 			return
 		}
 		returnData := SQL.getCommentsPre(uint(idint))
+		c.JSON(200, returnData)
+	})
+}
+func (api) CreateGetCommentsPageLatestAPI(g *gin.Engine) {
+	g.GET("/getCommentsPageLatest", func(c *gin.Context) {
+		// id := c.Query("id") //评论id
+		// idint, err := strconv.Atoi(id)
+		// if err != nil {
+		// return
+		// }
+		returnData := SQL.getCommentsPageLatest()
 		c.JSON(200, returnData)
 	})
 }

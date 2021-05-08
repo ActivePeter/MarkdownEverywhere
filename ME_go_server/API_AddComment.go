@@ -32,6 +32,12 @@ func (api) CreateAddCommentAPI(g *gin.Engine) {
 
 	g.POST("/addComment", func(c *gin.Context) {
 		var returnStruct AddCommentReturnStruct
+		fmt.Println("fatherID", c.PostForm("name"))
+		fmt.Println("fatherID", c.PostForm("content"))
+		fmt.Println("fatherID", c.PostForm("contact"))
+		fmt.Println("fatherID", c.PostForm("email"))
+		fmt.Println("fatherID", c.PostForm("fatherID"))
+
 		id, err := strconv.Atoi(c.PostForm("fatherID"))
 		if err != nil {
 			returnStruct.ErrId = 100
@@ -55,6 +61,9 @@ func (api) CreateAddCommentAPI(g *gin.Engine) {
 			)
 		}
 		fmt.Println("errId ", returnStruct.ErrId, " succed ", returnStruct.Successed)
-		c.JSON(200, returnStruct)
+		c.JSON(200, gin.H{
+			"errid":  returnStruct.ErrId,
+			"succed": returnStruct.Successed,
+		})
 	})
 }

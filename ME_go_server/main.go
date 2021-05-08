@@ -32,6 +32,7 @@ func main() {
 	API.CreateAddCommentAPI(r)
 	API.CreateGetCommentsNextPageAPI(r)
 	API.CreateGetCommentsPreAPI(r)
+	API.CreateGetCommentsPageLatestAPI(r)
 
 	r.Run((*conf)["ip"].(string)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
