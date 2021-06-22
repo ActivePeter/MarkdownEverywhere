@@ -1,29 +1,49 @@
+[English]()
+
 # MarkdownEverywhere
+
 [https://github.com/ActivePeter/MarkdownEverywhere](https://github.com/ActivePeter/MarkdownEverywhere)
 
  A web project to auto sync notes in git repositories, then present them by vue. I'm going to substitute this project for my blog.
 
 由于自己有在本地记笔记的习惯，同时又有两个笔记本，需要进行md文件同步，并且希望通过自己的服务器网站查阅到我的笔记，我准备开始做这个程序。
 
-大概原理是，通过git仓库，我们可以同步.md文件。然后服务端通过jgit来操作git，同步数据，如果有变更，就自动更新数据到服务端，然后我再通过vue前端去访问后端，后端读取目录文件，
+大概原理是，通过git仓库，我们可以同步.md文件。然后服务端通过git操作库来操作git，同步数据，如果有变更，就自动更新数据到服务端，然后我再通过vue前端去访问后端，后端读取目录文件，
 
 ## Preview
 
-![image-20210503135443404](https://gitee.com/zhongyichen33/wiki-pic-bed/raw/master/image-20210503135443404.png)
+![image-20210622173246083](https://hanbaoaaa.xyz/tuchuang/images/2021/06/22/image-20210622173246083.png)
 
 ## Fetures & TODO
 
 - [x] auto sync through git hook（通过git服务的hook调用接口来自动同步
-- [ ] ssr（服务端渲染
+- [x] ssr（服务端渲染
+- [x] 评论
 - [ ] easy for deploying（易于部署
 
-## 部署教程（供参考）
+## 部署方式
 
-[https://hanbaoaaa.xyz/hanbaoNote/92](https://hanbaoaaa.xyz/hanbaoNote/92)
+### 前端部分
+
+将前端部分部署到服务器的node管理下
+
+### 后端部分
+
+后端部分就是一个go的二进制文件，
+
+将config文件和二进制执行文件传到服务器上，配置后台运行即可
+
+![image-20210622173734344](https://hanbaoaaa.xyz/tuchuang/images/2021/06/22/image-20210622173734344.png)
+
+config.json
+
+![image-20210622173842354](https://hanbaoaaa.xyz/tuchuang/images/2021/06/22/image-20210622173842354.png)
+
+仓库，存储位置，首页文件路径，服务器ip和端口，评论数据的数据库配置
 
 ## 当前部署的我的知识库（demo）
 
-------->  [传送门](https://hanbaoaaa.xyz/hanbaoNote/)
+------->  [传送门](https://hanbaoaaa.xyz)
 
 ## 当前已经具有的功能
 
@@ -31,7 +51,17 @@
 
 
 
-## Current Progress（v0.1已经完成）
+## Current Progress
+
+### 2021/5
+
+从vue换成了nuxt，ssr服务端渲染，
+
+后端换成了golang，并加入评论功能
+
+### before
+
+## （v0.1已经完成）
 
 ![OK4_1__7GD2MN_9_KK__4DF.png](https://i.loli.net/2020/06/22/ZRoG6UA8eSkX1j4.png)
 
