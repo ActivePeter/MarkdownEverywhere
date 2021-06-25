@@ -13,12 +13,12 @@ public class fileUtils {
         for (int i = 0; i < tempList.length; i++) {
             if (tempList[i].isFile()) {
                 files.add(tempList[i].toString());
-                //ÎÄ¼þÃû£¬²»°üº¬Â·¾¶
+                //æ–‡ä»¶åï¼Œä¸åŒ…å«è·¯å¾„
                 System.out.println(tempList[i].toString());
                 //String fileName = tempList[i].getName();
             }
             if (tempList[i].isDirectory()) {
-                //ÕâÀï¾Í²»µÝ¹éÁË£¬
+                //è¿™é‡Œå°±ä¸é€’å½’äº†ï¼Œ
             }
         }
         return files;
@@ -37,7 +37,7 @@ public class fileUtils {
                 //String fileName = tempList[i].getName();
             }
             if (tempList[i].isDirectory()) {
-                //ÕâÀï¾Í²»µÝ¹éÁË£¬
+                //è¿™é‡Œå°±ä¸é€’å½’äº†ï¼Œ
             }
         }
         return files;
@@ -52,9 +52,9 @@ public class fileUtils {
                 
             }
             if (tempList[i].isDirectory()) {
-                //ÕâÀï¾Í²»µÝ¹éÁË£¬
+                //è¿™é‡Œå°±ä¸é€’å½’äº†ï¼Œ
             	
-                //ÎÄ¼þÃû£¬²»°üº¬Â·¾¶
+                //æ–‡ä»¶åï¼Œä¸åŒ…å«è·¯å¾„
             	String name=tempList[i].getName();
                 System.out.println(name);
                 files.add(name);
@@ -65,36 +65,36 @@ public class fileUtils {
     }
 
     /**
-     * É¾³ýÄ¿Â¼£¨ÎÄ¼þ¼Ð£©ÒÔ¼°Ä¿Â¼ÏÂµÄÎÄ¼þ
-     * @param   sPath ±»É¾³ýÄ¿Â¼µÄÎÄ¼þÂ·¾¶
-     * @return  Ä¿Â¼É¾³ý³É¹¦·µ»Øtrue£¬·ñÔò·µ»Øfalse
+     * åˆ é™¤ç›®å½•ï¼ˆæ–‡ä»¶å¤¹ï¼‰ä»¥åŠç›®å½•ä¸‹çš„æ–‡ä»¶
+     * @param   sPath è¢«åˆ é™¤ç›®å½•çš„æ–‡ä»¶è·¯å¾„
+     * @return  ç›®å½•åˆ é™¤æˆåŠŸè¿”å›žtrueï¼Œå¦åˆ™è¿”å›žfalse
      */
     public static boolean deleteDirectory(String sPath) {
-        //Èç¹ûsPath²»ÒÔÎÄ¼þ·Ö¸ô·û½áÎ²£¬×Ô¶¯Ìí¼ÓÎÄ¼þ·Ö¸ô·û
+        //å¦‚æžœsPathä¸ä»¥æ–‡ä»¶åˆ†éš”ç¬¦ç»“å°¾ï¼Œè‡ªåŠ¨æ·»åŠ æ–‡ä»¶åˆ†éš”ç¬¦
         if (!sPath.endsWith(File.separator)) {
             sPath = sPath + File.separator;
         }
         File dirFile = new File(sPath);
-        //Èç¹ûdir¶ÔÓ¦µÄÎÄ¼þ²»´æÔÚ£¬»òÕß²»ÊÇÒ»¸öÄ¿Â¼£¬ÔòÍË³ö
+        //å¦‚æžœdirå¯¹åº”çš„æ–‡ä»¶ä¸å­˜åœ¨ï¼Œæˆ–è€…ä¸æ˜¯ä¸€ä¸ªç›®å½•ï¼Œåˆ™é€€å‡º
         if (!dirFile.exists() || !dirFile.isDirectory()) {
             return false;
         }
         Boolean flag = true;
-        //É¾³ýÎÄ¼þ¼ÐÏÂµÄËùÓÐÎÄ¼þ(°üÀ¨×ÓÄ¿Â¼)
+        //åˆ é™¤æ–‡ä»¶å¤¹ä¸‹çš„æ‰€æœ‰æ–‡ä»¶(åŒ…æ‹¬å­ç›®å½•)
         File[] files = dirFile.listFiles();
         for (int i = 0; i < files.length; i++) {
-            //É¾³ý×ÓÎÄ¼þ
+            //åˆ é™¤å­æ–‡ä»¶
             if (files[i].isFile()) {
                 flag = deleteFile(files[i].getAbsolutePath());
                 if (!flag) break;
-            } //É¾³ý×ÓÄ¿Â¼
+            } //åˆ é™¤å­ç›®å½•
             else {
                 flag = deleteDirectory(files[i].getAbsolutePath());
                 if (!flag) break;
             }
         }
         if (!flag) return false;
-        //É¾³ýµ±Ç°Ä¿Â¼
+        //åˆ é™¤å½“å‰ç›®å½•
         if (dirFile.delete()) {
             return true;
         } else {
@@ -102,14 +102,14 @@ public class fileUtils {
         }
     }
     /**
-     * É¾³ýµ¥¸öÎÄ¼þ
-     * @param   sPath    ±»É¾³ýÎÄ¼þµÄÎÄ¼þÃû
-     * @return µ¥¸öÎÄ¼þÉ¾³ý³É¹¦·µ»Øtrue£¬·ñÔò·µ»Øfalse
+     * åˆ é™¤å•ä¸ªæ–‡ä»¶
+     * @param   sPath    è¢«åˆ é™¤æ–‡ä»¶çš„æ–‡ä»¶å
+     * @return å•ä¸ªæ–‡ä»¶åˆ é™¤æˆåŠŸè¿”å›žtrueï¼Œå¦åˆ™è¿”å›žfalse
      */
     public static boolean deleteFile(String sPath) {
         Boolean flag = false;
         File file = new File(sPath);
-        // Â·¾¶ÎªÎÄ¼þÇÒ²»Îª¿ÕÔò½øÐÐÉ¾³ý
+        // è·¯å¾„ä¸ºæ–‡ä»¶ä¸”ä¸ä¸ºç©ºåˆ™è¿›è¡Œåˆ é™¤
         if (file.isFile() && file.exists()) {
             file.delete();
             flag = true;
@@ -133,7 +133,7 @@ public class fileUtils {
                             .append(directory)
                             .append("},");
                 }
-                //sb.append(directory); //µÝ¹éµ÷ÓÃµÄµØ·½
+                //sb.append(directory); //é€’å½’è°ƒç”¨çš„åœ°æ–¹
             } else {
                 String filename=file2.getName();
                 int index = filename.lastIndexOf(context);
