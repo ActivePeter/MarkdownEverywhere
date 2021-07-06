@@ -5,18 +5,18 @@ import javax.servlet.ServletContextListener;
 
 public class ServletContextLTest implements ServletContextListener {
 
-    // ÊµÏÖÆäÖĞµÄÏú»Ùº¯Êı
+    // å®ç°å…¶ä¸­çš„é”€æ¯å‡½æ•°
 
     public void contextDestroyed(ServletContextEvent sce) {
 
-        System.out.println("ÏîÄ¿ÒÑÖÕÖ¹");
+        System.out.println("é¡¹ç›®å·²ç»ˆæ­¢");
 
     }
 
-    // ÊµÏÖÆäÖĞµÄ³õÊ¼»¯º¯Êı£¬µ±ÓĞÊÂ¼ş·¢ÉúÊ±¼´´¥·¢
+    // å®ç°å…¶ä¸­çš„åˆå§‹åŒ–å‡½æ•°ï¼Œå½“æœ‰äº‹ä»¶å‘ç”Ÿæ—¶å³è§¦å‘
 
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("ÏîÄ¿¸ÕÆô¶¯");
+        System.out.println("é¡¹ç›®åˆšå¯åŠ¨");
         new Thread(){
             public void run(){
                 NoteManager noteManager=NoteManager.getInstance();
