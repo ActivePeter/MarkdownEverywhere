@@ -14,7 +14,7 @@ func (api) CreateUpdateHookApi(g *gin.Engine) {
 		t6 := time.Now().Unix()
 		if t6-lastCallTime > 3 || lastCallTime == 0 {
 
-			UpdataRepo()
+			GitNoteManager.UpdataRepo()
 			c.JSON(200, gin.H{})
 			lastCallTime = t6
 		} else {

@@ -9,25 +9,46 @@ import (
 
 type sQLStruct struct {
 }
-type DataBaseConfig struct {
-	User     string `json:"user"`
-	Name     string `json:"name"`
-	Password string `json:"pw"`
-	Host     string `json:"ip"`
-	Port     string `json:"port"`
-	Charset  string `json:"charset"`
-}
+
+//type DataBaseConfig struct {
+//	User     string `json:"user"`
+//	Name     string `json:"name"`
+//	Password string `json:"pw"`
+//	Host     string `json:"ip"`
+//	Port     string `json:"port"`
+//	Charset  string `json:"charset"`
+//}
 
 var SQL sQLStruct
 var db *gorm.DB
 var CommentPageSize = 10
 
+//----sql conf------------------------------------------------------
+var sqlConf = SqlConf{}
+
+type SqlConf struct {
+	pw      string
+	name    string
+	ip_port string
+}
+
+func (s *SqlConf) construct_dsn() string {
+	var str = ""
+	str += s.name + ":"
+	str += s.pw + "@tcp("
+	str += s.ip_port + ")/"
+	str += s.name + "?charset=utf8mb4&parseTime=True&loc=Local"
+	return str
+}
+
 //公有函数///////////////////////////////////////////////////////////////////////////
 func (sql sQLStruct) InitDB() error {
-	dsn := "blog_go:Y73sT2kkMjYczxRn@tcp(127.0.0.1:3306)/blog_go?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := sqlConf.construct_dsn() //"blog_go:Y73sT2kkMjYczxRn@tcp(127.0.0.1:3306)/blog_go?charset=utf8mb4&parseTime=True&loc=Local"
+	println("dsn:", dsn)
 	var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
+		log.Error("connect sql error:", err)
 		panic(err)
 	}
 	// defer db.Close()

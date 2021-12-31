@@ -2,19 +2,21 @@ package main
 
 import (
 	"fmt"
+	"github.com/go-git/go-git/v5"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
 	"sync"
-
-	"github.com/go-git/go-git/v5"
 )
 
 var gitpath string
 var mdReg *regexp.Regexp
 var totalStruct *TotalStruct
 var RootPath = "./repo"
+var GitNoteManager = _GitNoteManager{}
+
+type _GitNoteManager struct{}
 
 // var curMap[string]int
 // var oldMap[string]int
@@ -59,28 +61,28 @@ func GetRootTree() *FolderNode {
 }
 
 //设置仓库路径
-func setRepoPath(path string) {
+func (g *_GitNoteManager) setRepoPath(path string) {
 	// Clone the given repository to the given directory
 	// Info("git clone https://github.com/go-git/go-git")
 	gitpath = path
 	// CheckIfError(err)
-	firstInit()
+	g.firstInit()
 }
-func firstInit() {
+func (g *_GitNoteManager) firstInit() {
 	if totalStruct == nil {
-		save := readSave()
+		save := FileReader.readSave()
 		if save != nil {
 			totalStruct = save
 		} else {
 			totalStruct = NewTotalStruct()
 		}
 	}
-	loadMapFromTree(&totalStruct.Root, "./repo")
+	g.loadMapFromTree(&totalStruct.Root, "./repo")
 }
-func loadMapFromTree(root *FolderNode, path string) {
+func (g *_GitNoteManager) loadMapFromTree(root *FolderNode, path string) {
 
 	for _, value := range root.FolderNodes {
-		loadMapFromTree(value, filepath.Join(path, value.Name))
+		g.loadMapFromTree(value, filepath.Join(path, value.Name))
 	}
 	for _, value := range root.FileNodes {
 		// loadMapFromTree(value)
@@ -89,12 +91,12 @@ func loadMapFromTree(root *FolderNode, path string) {
 		// fmt.Println("one node is loaded", fp, value.Index)
 	}
 }
-func UpdataRepo() {
-	pullRepo()
-	genRepoTree()
+func (g *_GitNoteManager) UpdataRepo() {
+	g.pullRepo()
+	g.genRepoTree()
 }
 
-func pullRepo() {
+func (g *_GitNoteManager) pullRepo() {
 	// We instantiate a new repository targeting the given path (the .git folder)
 	r, err := git.PlainOpen("./repo")
 	CheckIfError(err)
@@ -117,7 +119,7 @@ func pullRepo() {
 }
 
 //clone仓库
-func cloneRepo() {
+func (g *_GitNoteManager) cloneRepo() {
 
 	_, _ = git.PlainClone("./repo", false, &git.CloneOptions{
 		URL:      gitpath,
@@ -127,7 +129,7 @@ func cloneRepo() {
 
 //以下皆跟遍历仓库相关/////////////////////////////////////////////////////////////
 //生成仓库的文件结构
-func genRepoTree() {
+func (g *_GitNoteManager) genRepoTree() {
 	reg, err := regexp.Compile(".md")
 
 	if err != nil {
@@ -136,36 +138,70 @@ func genRepoTree() {
 	}
 	mdReg = reg
 	// getPath("./repo", "")
-	start()
+	g.start()
 
 }
 
 func getIndexInOldMap() {
 
 }
-func getNewFileCnt() int {
+func (g *_GitNoteManager) getNewFileCnt() int {
 	totalStruct.TotalCnt++
 	return totalStruct.TotalCnt - 1
 }
-func removeNotExistInFolderNode(existFiles []string, folderNode *FolderNode, prefixPath string) {
+func (g *_GitNoteManager) removeNotExistInFolderNode(existFiles []string, folderNode *FolderNode, prefixPath string) {
 	// if folderNode.FolderNodes!=nil
-	for index, value := range folderNode.FileNodes {
-		// fmt.Println("index=", index, "value=", value)
-		if !filesContainFile(existFiles, value.Name) {
-			fmt.Println("not contain ", value.Name)
-			fpath := filepath.Join(prefixPath, value.Name)
-			folderNode.FileNodes = append(folderNode.FileNodes[:index], folderNode.FileNodes[index+1:]...)
-			Path2IndexMap.Delete(fpath)
+	//fileNodes =[]*FileNode()
+	//遍历文件节点
+
+	{ //删除文件
+		preMove := 0
+		i := 0
+		for ; i < len(folderNode.FileNodes); i++ {
+			value := folderNode.FileNodes[i]
+			if !g.filesContainFile(existFiles, value.Name) {
+				// 删除path在map里的记录
+				fmt.Println("not contain ", value.Name)
+				fpath := filepath.Join(prefixPath, value.Name)
+				//folderNode.FileNodes = append(folderNode.FileNodes[:index], folderNode.FileNodes[index+1:]...)
+				Path2IndexMap.Delete(fpath)
+
+				//删除
+				preMove++
+			} else {
+				folderNode.FileNodes[i-preMove] = folderNode.FileNodes[i]
+			}
+		}
+		folderNode.FileNodes = folderNode.FileNodes[:i-preMove]
+	}
+	//for index, value := range folderNode.FileNodes {
+	//	// fmt.Println("index=", index, "value=", value)
+	//
+	//}
+	{
+		{ //删除文件夹
+			preMove := 0
+			i := 0
+			for ; i < len(folderNode.FolderNodes); i++ {
+				value := folderNode.FolderNodes[i]
+				if !g.filesContainFile(existFiles, value.Name) {
+					preMove++
+				} else {
+					folderNode.FolderNodes[i-preMove] = folderNode.FolderNodes[i]
+				}
+			}
+			folderNode.FolderNodes = folderNode.FolderNodes[:i-preMove]
 		}
 	}
-	for index, value := range folderNode.FolderNodes {
-		// fmt.Println("index=", index, "value=", value)
-		if !filesContainFile(existFiles, value.Name) {
-			folderNode.FolderNodes = append(folderNode.FolderNodes[:index], folderNode.FolderNodes[index+1:]...)
-		}
-	}
+	//遍历文件夹节点
+	//for index, value := range folderNode.FolderNodes {
+	//	// fmt.Println("index=", index, "value=", value)
+	//	if !g.filesContainFile(existFiles, value.Name) {
+	//		folderNode.FolderNodes = append(folderNode.FolderNodes[:index], folderNode.FolderNodes[index+1:]...)
+	//	}
+	//}
 }
-func filesContainFile(files []string, file string) bool {
+func (g *_GitNoteManager) filesContainFile(files []string, file string) bool {
 	for _, value := range files {
 		// fmt.Println("index=", index, "value=", value)
 		if value == file {
@@ -174,7 +210,20 @@ func filesContainFile(files []string, file string) bool {
 	}
 	return false
 }
-func lookForFolderNode(folderNodes []*FolderNode, file string) *FolderNode {
+func (g *_GitNoteManager) find_delete_folder_node_in_nodes(folderNodes []*FolderNode, name string) {
+	i := 0
+	pre := 0
+	for ; i < len(folderNodes); i++ {
+		if folderNodes[i].Name == name {
+			pre++
+		} else if pre > 0 {
+			folderNodes[i-pre] = folderNodes[i]
+		}
+	}
+	//裁剪长度
+	folderNodes = folderNodes[:i-pre]
+}
+func (g *_GitNoteManager) lookForFolderNode(folderNodes []*FolderNode, file string) *FolderNode {
 	for _, value := range folderNodes {
 		if value.Name == file {
 			return value
@@ -182,7 +231,7 @@ func lookForFolderNode(folderNodes []*FolderNode, file string) *FolderNode {
 	}
 	return nil
 }
-func lookForFileNode(fileNodes []*FileNode, file string) *FileNode {
+func (g *_GitNoteManager) lookForFileNode(fileNodes []*FileNode, file string) *FileNode {
 	for _, value := range fileNodes {
 		if value.Name == file {
 			return value
@@ -190,13 +239,13 @@ func lookForFileNode(fileNodes []*FileNode, file string) *FileNode {
 	}
 	return nil
 }
-func start() {
+func (g *_GitNoteManager) start() {
 
 	fileInfo, _ := os.Lstat(RootPath)
 
-	walk(RootPath, fileInfo, &totalStruct.Root)
+	g.walk(RootPath, fileInfo, &totalStruct.Root)
 
-	saveTotalStruct(totalStruct)
+	FileReader.saveTotalStruct(totalStruct)
 	// data, _ := json.Marshal(totalStruct.root)
 
 	// fmt.Printf("\r\n%s\r\n", data)
@@ -209,36 +258,18 @@ func start() {
 	// fm
 	// t.Println(Path2IndexMap)
 }
-func walk(path string, info os.FileInfo, node *FolderNode) {
+func (g *_GitNoteManager) walk(path string, info os.FileInfo, node *FolderNode) bool {
 	// 列出当前目录下的所有目录、文件
-	files := listFiles(path)
-	// fmt.Println("walking:", path)
-	removeNotExistInFolderNode(files, node, path)
-	// filecnt := 0
-	// 遍历这些文件
-	// for _, filename := range files {
-	// 	// 拼接全路径
-	// 	fpath := filepath.Join(path, filename)
+	files := g.listFiles(path)
+	//递归移除已经不存在的节点
+	g.removeNotExistInFolderNode(files, node, path)
 
-	// 	// 构造文件结构
-	// 	fio, _ := os.Lstat(fpath)
-
-	// 	// 如果遍历的当前文件是个目录，则进入该目录进行递归
-	// 	if !fio.IsDir() {
-	// 		if mdReg.MatchString(fio.Name()) {
-	// 			// 将当前文件作为子节点添加到目录下
-	// 			child := FileNode{filename}
-	// 			node.FileNodes = append(node.FileNodes, &child)
-	// 			filecnt++
-	// 		}
-	// 	}
-	// }
-	// if filecnt==0 {
-	// 	return
-	// }
+	if len(files) == 0 {
+		return false
+	}
 	// 遍历这些文件
 	for _, filename := range files {
-		// 拼接全路径
+		// 1拼接全路径
 		fpath := filepath.Join(path, filename)
 
 		// 构造文件结构
@@ -247,27 +278,39 @@ func walk(path string, info os.FileInfo, node *FolderNode) {
 		// 如果遍历的当前文件是个目录，则进入该目录进行递归
 		if fio.IsDir() {
 			if filename != ".git" {
-				// fmt.Println(node)
-				child := lookForFolderNode(node.FolderNodes, filename)
+				//从已有树结构中搜索
+				child := g.lookForFolderNode(node.FolderNodes, filename)
 				// 将当前文件作为子节点添加到目录下
 				if child == nil {
 					child = &FolderNode{filename, []*FileNode{}, []*FolderNode{}}
 					node.FolderNodes = append(node.FolderNodes, child)
 				}
 				// fmt.Println(child)
-				walk(fpath, fio, child)
+
+				//递归，并判断是否为空，空则删除
+				hasfile := g.walk(fpath, fio, child)
+				if !hasfile {
+					//删除文件夹，
+					os.Remove(fpath)
+					println("remove", fpath)
+					//log.Error("file remove err:", err)
+					//删除树节点
+					g.find_delete_folder_node_in_nodes(node.FolderNodes, filename)
+				} else {
+					println("no remove", fpath)
+				}
 			}
 
 		} else {
 			if mdReg.MatchString(fio.Name()) {
-				child := lookForFileNode(node.FileNodes, filename)
+				child := g.lookForFileNode(node.FileNodes, filename)
 				// 将当前文件作为子节点添加到目录下
 				if child == nil {
 					findex := 0
 					if fpath == MainPath {
 						findex = 1
 					} else {
-						findex = getNewFileCnt()
+						findex = g.getNewFileCnt()
 					}
 					child = &FileNode{filename, findex}
 					node.FileNodes = append(node.FileNodes, child)
@@ -280,9 +323,13 @@ func walk(path string, info os.FileInfo, node *FolderNode) {
 			}
 		}
 	}
-	return
+	files = g.listFiles(path)
+	if len(files) == 0 {
+		return false
+	}
+	return true
 }
-func listFiles(dirname string) []string {
+func (g *_GitNoteManager) listFiles(dirname string) []string {
 	f, _ := os.Open(dirname)
 
 	names, _ := f.Readdirnames(-1)
