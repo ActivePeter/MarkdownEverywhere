@@ -142,9 +142,6 @@ func (g *_GitNoteManager) genRepoTree() {
 
 }
 
-func getIndexInOldMap() {
-
-}
 func (g *_GitNoteManager) getNewFileCnt() int {
 	totalStruct.TotalCnt++
 	return totalStruct.TotalCnt - 1
@@ -210,18 +207,23 @@ func (g *_GitNoteManager) filesContainFile(files []string, file string) bool {
 	}
 	return false
 }
-func (g *_GitNoteManager) find_delete_folder_node_in_nodes(folderNodes []*FolderNode, name string) {
+func (g *_GitNoteManager) find_delete_folder_node_in_nodes(folderNodes *[]*FolderNode, name string) {
 	i := 0
 	pre := 0
-	for ; i < len(folderNodes); i++ {
-		if folderNodes[i].Name == name {
+	println("bf size", len(*folderNodes))
+	for ; i < len(*folderNodes); i++ {
+		println("foldername when delete in tree", (*folderNodes)[i].Name)
+		if (*folderNodes)[i].Name == name {
 			pre++
+			println("match one when delete in tree", name)
 		} else if pre > 0 {
-			folderNodes[i-pre] = folderNodes[i]
+			(*folderNodes)[i-pre] = (*folderNodes)[i] //前移
+			//println("match one when delete in tree", name)
 		}
 	}
 	//裁剪长度
-	folderNodes = folderNodes[:i-pre]
+	*folderNodes = (*folderNodes)[:i-pre]
+	println("aft size", len(*folderNodes))
 }
 func (g *_GitNoteManager) lookForFolderNode(folderNodes []*FolderNode, file string) *FolderNode {
 	for _, value := range folderNodes {
@@ -295,9 +297,14 @@ func (g *_GitNoteManager) walk(path string, info os.FileInfo, node *FolderNode) 
 					println("remove", fpath)
 					//log.Error("file remove err:", err)
 					//删除树节点
-					g.find_delete_folder_node_in_nodes(node.FolderNodes, filename)
+					//println("bff size", len(folderNodes))
+					g.find_delete_folder_node_in_nodes(&node.FolderNodes, filename)
+					for _, data := range node.FolderNodes {
+						print(data.Name)
+					}
+					println("")
 				} else {
-					println("no remove", fpath)
+					//println("no remove", fpath)
 				}
 			}
 
