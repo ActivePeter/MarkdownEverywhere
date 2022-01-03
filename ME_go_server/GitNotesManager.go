@@ -39,7 +39,12 @@ type FolderNode struct {
 type TotalStruct struct {
 	TotalCnt int `json:totalCnt`
 	// recordedPath2IndexMap map[string]int
-	Root FolderNode `json:nodeTree`
+	Root       FolderNode    `json:nodeTree`
+	ChangeLogs []*ChangeDate `json:"change_logs"`
+}
+
+func last(clogs []*ChangeDate) *ChangeDate {
+	return clogs[len(clogs)-1];
 }
 
 // func FileNodesContain(filename string) {
@@ -113,8 +118,46 @@ func (g *_GitNoteManager) pullRepo() {
 	// Print the latest commit that was just pulled
 	ref, err := r.Head()
 	CheckIfError(err)
+
+	//get logs
+	log, err := r.Log(&git.LogOptions{})
+	CheckIfError(err)
+
+	//switch 2 second commit
+	log.Next()
+	a, err := log.Next()
+	CheckIfError(err)
+
 	commit, err := r.CommitObject(ref.Hash())
 	CheckIfError(err)
+
+	{
+		tree, err := commit.Tree()
+		CheckIfError(err)
+		old_tree, err := a.Tree()
+		CheckIfError(err)
+
+		diffs, err := tree.Diff(old_tree)
+		CheckIfError(err)
+
+
+		g.try_record_change(&diffs,
+			commit.Committer.When.Format("2006-01-02"),
+			ref.Hash())
+
+		for _, v := range diffs {
+			println(v.String())
+
+		}
+		// ... get the files iterator and print the file
+		//tree.Files().ForEach(func(f *object.File) error {
+		//	fmt.Printf("100644 blob %s    %s\n", f.Hash, f.Name)
+		//	return nil
+		//})
+
+	}
+	CheckIfError(err)
+
 	fmt.Println(commit)
 }
 

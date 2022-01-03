@@ -1,8 +1,10 @@
 # me_nuxt
 
-## pre install
+## Pre Install
 
+1.node.js
 
+2.yarn
 
 ## Build Setup
 
