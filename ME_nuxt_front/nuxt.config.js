@@ -9,7 +9,7 @@ export default {
   },
 
   head: {
-    title: '汉堡的知识库',
+    title: 'hanbaoaaa 的知识库',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -52,7 +52,7 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -84,8 +84,8 @@ export default {
   },
   proxy: {
     '/api': {
-      target: 'http://localhost:659', // 本地测试目标接口域名
-      // target: 'http://hanbaoaaa.xyz/backend', // 部署时目标接口域名
+      // target: 'http://localhost:659', // 本地测试目标接口域名
+      target: 'http://hanbaoaaa.xyz/backend', // 部署时目标接口域名
       changeOrigin: true, // 表示是否跨域
       pathRewrite: {
         '^/api': '', // 把 /api 替换成 /

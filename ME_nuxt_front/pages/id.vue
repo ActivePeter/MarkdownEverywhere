@@ -20,9 +20,19 @@
     >
       <div id="box" slot="body">
         <div id="right" :style="{ width: sideWidth + 'px' }">
-          <TreeMenu :treeRoot="root" />
+          <TreeMenu
+            :treeRoot="root"
+            :show_history="show_history"
+            @switch_history_show="switch_history_show"
+            ref="the_menu"
+          />
         </div>
         <div id="resize"></div>
+        <History
+          :history_log="log"
+          :show="show_history"
+          @swicth2node="switch2node"
+        />
         <div id="left">
           <!-- {{ articleBody }} -->
           <div class="background">
@@ -49,9 +59,10 @@
 </template>
 
 <script>
-import TreeMenu from '@/compos/TreeMenu'
-import drawer from '../compos/drawer.vue'
-import CommentList from '../compos/CommentList'
+import TreeMenu from "@/compos/TreeMenu";
+import drawer from "../compos/drawer.vue";
+import CommentList from "../compos/CommentList";
+import History from "../compos/History.vue";
 // import VueMarkdown from 'vue-markdown'
 // import member from '@/components/index/member/index'
 // import domain from '@/components/index/domain'
@@ -63,11 +74,12 @@ import CommentList from '../compos/CommentList'
 // import { mavonEditor } from 'mavon-editor'
 // import 'mavon-editor/dist/css/index.css'
 export default {
-  name: 'Index',
+  name: "Index",
   components: {
     TreeMenu,
     drawer,
     CommentList,
+    History,
     // mavonEditor,
     // MarkdownItVue,
     // 'vue-markdown': VueMarkdown,
@@ -80,63 +92,72 @@ export default {
   data() {
     return {
       sideWidth: 200,
-      root: { file_nodes: [{ name: 'ss' }] },
-      articleBody: '',
-      content: '# your markdown content',
-      imgSrc: require('@/assets/img/bg.png'),
+      root: { file_nodes: [{ name: "ss" }] },
+      articleBody: "",
+      content: "# your markdown content",
+      imgSrc: require("@/assets/img/bg.png"),
       drawer: false,
-    }
+      show_history: true,
+    };
   },
   methods: {
+    switch2node(node) {
+      // console.log("msg swicth2node ", node);
+      this.$refs.the_menu.switch2node(node);
+    },
+    switch_history_show() {
+      this.show_history = !this.show_history;
+      console.log("switch_history_show");
+    },
     onHide() {
-      console.log('hide')
+      console.log("hide");
     },
     changeDrawerShow(state) {
-      this.drawer = state
-      console.log('drawer was changed from components')
+      this.drawer = state;
+      console.log("drawer was changed from components");
     },
     onShow() {
-      console.log('show')
+      console.log("show");
     },
     switchCommentShow() {
-      this.drawer = !this.drawer
+      this.drawer = !this.drawer;
     },
     dragControllerDiv() {
       // 保留this引用
-      const that = this
-      const resize = document.getElementById('resize')
+      const that = this;
+      const resize = document.getElementById("resize");
       resize.onmousedown = function (e) {
         // 颜色改变提醒
-        resize.style.background = '#818181'
-        let startX = e.clientX
-        resize.left = resize.offsetLeft
+        resize.style.background = "#818181";
+        let startX = e.clientX;
+        resize.left = resize.offsetLeft;
         document.onmousemove = function (e) {
           // 计算并应用位移量
-          const endX = e.clientX
-          const moveLen = endX - startX
-          startX = endX
-          that.sideWidth += moveLen
-        }
+          const endX = e.clientX;
+          const moveLen = endX - startX;
+          startX = endX;
+          that.sideWidth += moveLen;
+        };
         document.onmouseup = function () {
           // 颜色恢复
-          resize.style.background = ''
-          document.onmousemove = null
-          document.onmouseup = null
-        }
-        return false
-      }
+          resize.style.background = "";
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+        return false;
+      };
     },
   },
   mounted() {
-    this.dragControllerDiv()
+    this.dragControllerDiv();
   },
   async asyncData({ app, redirect, route }) {
     if (route.params.id1 == null) {
       // console.log(route)
-      redirect('/id/1')
+      redirect("/id/1");
     } else {
       try {
-        const rec = await Promise.all([app.$api.getList()])
+        const rec = await Promise.all([app.$api.getList()]);
         // console.log(rec[0].data)
         // console.log(md)
         // const result1 = $md.render('# your markdown content')
@@ -144,14 +165,15 @@ export default {
         // const result1 = '' // md.render(rec[0].data.article)
         return {
           root: rec[0].data.tree,
+          log: rec[0].data.log.reverse(),
           // articleBody: rec[0].data.article,
-        }
+        };
       } catch (e) {
-        return {}
+        return {};
       }
     }
   },
-}
+};
 </script>
 
 <style scoped>

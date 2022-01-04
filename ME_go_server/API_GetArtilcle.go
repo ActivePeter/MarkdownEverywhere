@@ -20,6 +20,7 @@ func (api) CreateGetListApi(g *gin.Engine) {
 
 		c.JSON(200, gin.H{
 			"tree": GetRootTree(),
+			"log":totalStruct.ChangeLogs,
 			// "article": ReadArticle(id),
 		})
 

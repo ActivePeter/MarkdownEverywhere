@@ -87,6 +87,22 @@ func (g *_GitNoteManager) delete_all_nodes_of_filepath(fp string) {
 		}
 	}
 }
+func (g *_GitNoteManager) delete_all_mod_nodes_of_filepath(fp string) {
+	println("delete all", fp)
+	for _, v := range totalStruct.ChangeLogs {
+		for _, v1 := range v.ChangeNodes {
+			dcnt := 0
+			for i, v2 := range v1.SingleChanges {
+				if v2.FilePath == fp &&v2.ChangeType==SingleChangeType.mod{
+					dcnt++
+				} else if dcnt > 0 {
+					v1.SingleChanges[i-dcnt] = v1.SingleChanges[i] //前移
+				}
+			}
+			v1.SingleChanges = v1.SingleChanges[:len(v1.SingleChanges)-dcnt]
+		}
+	}
+}
 func (g *_GitNoteManager) try_record_change(changes *object.Changes, when string, hash plumbing.Hash) {
 	if !changes_rec_check_exist(hash) {
 		println("new change is recorded")
@@ -106,6 +122,8 @@ func (g *_GitNoteManager) try_record_change(changes *object.Changes, when string
 			a, err := v.Action()
 			CheckIfError(err)
 			if a == merkletrie.Modify {
+				//删除之前所有这个modify的记录
+				g.delete_all_mod_nodes_of_filepath(v.To.Name)
 				new_change_node.add(SingleChange_new(
 					v.From.Name,
 					SingleChangeType.mod,
