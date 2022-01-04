@@ -12,6 +12,8 @@
 
 ## Preview
 
+------->  [传送门 https://hanbaoaaa.xyz](https://hanbaoaaa.xyz)
+
 ![image-20210622173246083](https://hanbaoaaa.xyz/tuchuang/images/2021/06/22/image-20210622173246083.png)
 
 ## Fetures & TODO
@@ -19,6 +21,8 @@
 - [x] auto sync through git hook（通过git服务的hook调用接口来自动同步
 - [x] ssr（服务端渲染
 - [x] 评论
+- [x] commit变更记录
+- [ ] 全文搜索
 - [ ] easy for deploying（易于部署
 
 ## 部署方式
@@ -41,10 +45,6 @@ config.json
 
 仓库，存储位置，首页文件路径，服务器ip和端口，评论数据的数据库配置
 
-## 当前部署的我的知识库（demo）
-
-------->  [传送门](https://hanbaoaaa.xyz)
-
 ## 当前已经具有的功能
 
 ![image-20200624190022297](http://tuchuang.hanbaoaaa.xyz/image-20200624190022297.png)
@@ -52,6 +52,10 @@ config.json
 
 
 ## Current Progress
+
+### 2022/1/4
+
+加入了变更记录功能
 
 ### 2021/5
 
