@@ -17,7 +17,7 @@
     "element-ui": "^2.13.2",
     "fast-amap": "^0.6.0",
     "jquery": "^3.6.0",
-    "markdown-it": "^12.0.6",
+    "markdown-it": "^12.3.2",
     "markdown-it-attrs": "^4.0.0",
     "markdown-it-div": "^1.1.0",
     "markdown-it-highlightjs": "^3.4.0",
