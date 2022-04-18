@@ -8,7 +8,6 @@ jobs:
       dst_token: ${{ secrets.GITEE_TOKEN }}
       gitee_user: ${{ secrets.GITEE_USER }}
     runs-on: ubuntu-latest
-    environment: gitee_sunc
     steps:
       - uses: actions/checkout@v2
         with:
